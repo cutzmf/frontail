@@ -112,7 +112,8 @@ if (program.daemonize) {
     }
 
     tailer.getBuffer().forEach((line) => {
-      socket.emit('line', line);
+      line = JSON.parse(line);
+      socket.emit('line', line.time +' | '+ line.log);
     });
   });
 
