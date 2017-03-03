@@ -114,10 +114,10 @@ if (program.daemonize) {
     tailer.getBuffer().forEach((line) => {
       try {
 	line = JSON.parse(line);
+	socket.emit('line', line.time +'|'+ line.log);
       } catch (e) {
-	return console.error(e);
+	return console.log('tailer.getBuffer ',e);
       }
-      socket.emit('line', line.time +' | '+ line.log);
     });
   });
 
@@ -125,7 +125,12 @@ if (program.daemonize) {
    * Send incoming data
    */
   tailer.on('line', (line) => {
-    filesSocket.emit('line', line);
+      try {
+	line = JSON.parse(line);
+	filesSocket.emit('line', line.time +'|'+ line.log);
+      } catch (e) {
+	return console.log('tailer.on ',e);
+      }
   });
 
   /**
