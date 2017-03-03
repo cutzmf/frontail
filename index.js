@@ -112,7 +112,11 @@ if (program.daemonize) {
     }
 
     tailer.getBuffer().forEach((line) => {
-      line = JSON.parse(line);
+      try {
+	line = JSON.parse(line);
+      } catch (e) {
+	return console.error(e);
+      }
       socket.emit('line', line.time +' | '+ line.log);
     });
   });
