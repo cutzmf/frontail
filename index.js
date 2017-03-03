@@ -121,8 +121,7 @@ if (program.daemonize) {
    * Send incoming data
    */
   tailer.on('line', (line) => {
-    line = JSON.parse(line);
-    filesSocket.emit('line', line.time +' | '+ line.log);
+    filesSocket.emit('line', line);
   });
 
   /**
